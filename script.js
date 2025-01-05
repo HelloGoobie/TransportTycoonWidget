@@ -1,4 +1,4 @@
-const apiUrl = "http://tycoon-2epova.users.cfx.re/status/sotd.json";
+const apiUrl = "https://tycoon-2epova.users.cfx.re/status/sotd.json";
 const apiKey = "qqHewKb0fxvFERGrbDuO7eShDEyX0Kr2jFEnY"; // Replace with your API key
 
 async function fetchSOTD() {
