@@ -1,196 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Waypoint App</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: transparent;
-    }
-
-    .window {
-      position: absolute;
-      top: 50px;
-      left: 50px;
-      width: 300px;
-      height: 300px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      padding: 10px;
-      display: flex;
-      flex-direction: row;
-      overflow: hidden;
-      user-select: none;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: rgba(0, 0, 0, 0.2);
-      padding: 5px;
-      border-radius: 10px;
-      cursor: move;
-    }
-
-    #closeBtn {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .buttons {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      height: 100%;
-      width: 150px;
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
-      padding: 5px;
-    }
-
-    button {
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      padding: 6px;
-      margin-bottom: 5px;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 12px;
-    }
-
-    button:hover {
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    .locationMenu {
-      display: none;
-      margin-left: 10px;
-      flex-grow: 1;
-      background-color: rgba(0, 0, 255, 0.5);
-      border-radius: 10px;
-      padding: 10px;
-    }
-
-    .locationMenu button {
-      background-color: rgba(0, 0, 255, 0.7);
-      margin-bottom: 5px;
-      font-size: 12px;
-      padding: 6px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Locations</title>
 </head>
 <body>
-
-  <div class="window">
-    <div class="buttons" id="jobMenu">
-      <!-- Job buttons will be dynamically loaded here -->
+    <div id="menu">
+        <select id="jobSelect"></select>
+        <select id="locationSelect"></select>
+        <button id="setWaypointButton">Set Waypoint</button>
     </div>
-    <div class="locationMenu" id="locationMenu">
-      <!-- Location buttons will be dynamically loaded here -->
-    </div>
-  </div>
 
-  <script>
-    // Function to set the waypoint
-    function setWaypoint(x, y, z) {
-      const command = { type: "setWaypoint", x: x, y: y, z: z };
-      console.log(command); // Replace this with your game's API call to set the waypoint
-      alert(`Waypoint set to: X: ${x}, Y: ${y}, Z: ${z}`);
-    }
-
-    // Function to fetch and load the locations.json
-    async function loadLocations() {
-      const response = await fetch('locations.json'); // Change the URL if necessary
-      const data = await response.json();
-      return data;
-    }
-
-    // Function to create the job buttons dynamically
-    function createJobButtons(locationsData) {
-      const jobMenu = document.getElementById("jobMenu");
-      const jobs = Object.keys(locationsData); // Get the job names (keys)
-      jobs.forEach(job => {
-        const jobButton = document.createElement("button");
-        jobButton.textContent = job;
-        jobButton.onclick = function() {
-          displayLocations(locationsData, job);
+    <script>
+        // Embedded locations data
+        const locations = {
+            "Aerial Firefighter": [
+          { "name": "Location 1", "x": 500, "y": 250 },
+          { "name": "Location 2", "x": 1000, "y": 500 }
+            ],
+            "Airline Pilot": [
+          { "name": "Airport Runway", "x": 1500, "y": 1000 },
+          { "name": "Sky Location 1", "x": 2000, "y": 1200 }
+            ],
+            "Beach Cleaner": [
+          { "name": "Beach Location 1", "x": 100, "y": 200 },
+          { "name": "Beach Location 2", "x": 300, "y": 400 }
+            ],
+            "Business": [
+          { "name": "Wenger Institute", "x": -368.79766845703, "y": -240.53649902344, "z": 36.080070495605 },
+          { "name": "La Vaca Loco", "x": 142.927383, "y": -1520.104736, "z": 29.836950 },
+          { "name": "Vespucci Movie Masks", "x": -1337.976440, "y": -1276.094116, "z": 4.895197 },
+          { "name": "Mr. Spoke's Bike Rental", "x": -1106.429565, "y": -1695.158203, "z": 4.373420 },
+          { "name": "Sandy Shores Liquor", "x": 1952.636353, "y": 3842.005371, "z": 32.178314 }
+            ]
         };
-        jobMenu.appendChild(jobButton);
-      });
-    }
 
-    // Function to display location buttons based on the selected job
-    function displayLocations(locationsData, job) {
-      const locationMenu = document.getElementById("locationMenu");
-      locationMenu.innerHTML = ''; // Clear the previous location buttons
 
-      const locations = locationsData[job];
-      locations.forEach(location => {
-        const locationButton = document.createElement("button");
-        locationButton.textContent = location.name;
-        locationButton.onclick = function() {
-          setWaypoint(location.x, location.y, location.z);
-        };
-        locationMenu.appendChild(locationButton);
-      });
-      locationMenu.style.display = 'block'; // Show the location menu
-    }
+        const jobSelect = document.getElementById("jobSelect");
+        const locationSelect = document.getElementById("locationSelect");
+        const setWaypointButton = document.getElementById("setWaypointButton");
 
-    // Make the window draggable
-    let isDragging = false;
-    let offsetX, offsetY;
-    const windowElement = document.querySelector('.window');
-    const headerElement = document.querySelector('.header');
+        // Populate job dropdown
+        for (const job in locations) {
+            const option = document.createElement("option");
+            option.value = job;
+            option.textContent = job;
+            jobSelect.appendChild(option);
+        }
 
-    headerElement.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      offsetX = e.clientX - windowElement.offsetLeft;
-      offsetY = e.clientY - windowElement.offsetTop;
-    });
+        // Update locations dropdown when job changes
+        jobSelect.addEventListener("change", () => {
+            const selectedJob = jobSelect.value;
+            locationSelect.innerHTML = ""; // Clear previous options
 
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        windowElement.style.left = e.clientX - offsetX + 'px';
-        windowElement.style.top = e.clientY - offsetY + 'px';
-      }
-    });
+            locations[selectedJob].forEach(location => {
+                const option = document.createElement("option");
+                option.value = JSON.stringify(location); // Store coordinates as a JSON string
+                option.textContent = location.name;
+                locationSelect.appendChild(option);
+            });
+        });
 
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
+        // Set waypoint on button click
+        setWaypointButton.addEventListener("click", () => {
+            const selectedLocation = JSON.parse(locationSelect.value);
+            if (selectedLocation) {
+                const { x, y } = selectedLocation;
+                // Send the waypoint to the parent window
+                window.parent.postMessage({ type: "setWaypoint", x, y }, "*");
+                console.log(`Waypoint set to: X=${x}, Y=${y}`);
+            }
+        });
 
-    // Close button functionality
-    const closeBtn = document.getElementById("closeBtn");
-    closeBtn.onclick = function() {
-      window.close(); // Replace with a proper method to close or hide the window
-    };
-
-    // Load the locations and initialize the job menu
-    loadLocations().then(locationsData => {
-      createJobButtons(locationsData);
-    }).catch(err => {
-      console.error('Error loading locations.json:', err);
-    });
-
-  </script>
+        // Initialize the dropdowns
+        jobSelect.dispatchEvent(new Event("change"));
+    </script>
 </body>
 </html>
