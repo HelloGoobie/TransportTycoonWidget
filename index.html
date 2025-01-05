@@ -3,86 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transport Tycoon - Skill of the Days, man</title>
+  <title>Transport Tycoon - Player Stats</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: transparent; /* Set the background of the page to transparent */
-      color: #333;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
       text-align: center;
-      height: 100vh; /* Full viewport height */
-      overflow: hidden; /* Prevents the body from scrolling */
+      height: 100vh;
     }
 
     .container {
       max-width: 500px;
       margin: 0 auto;
       padding: 20px;
-      background: #fff;
+      background: #333;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
-      position: absolute; /* So we can position it absolutely within the window */
-      top: 50%; /* Center vertically */
-      left: 50%; /* Center horizontally */
-      transform: translate(-50%, -50%); /* Adjust the positioning to make it truly centered */
-      cursor: move; /* Shows a move cursor */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     h1 {
-      color: #c0392b;
+      color: #f39c12;
     }
 
-    .sotd {
+    .stats {
       margin: 20px 0;
+      padding: 10px;
+      background: #444;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #c0392b;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #e74c3c;
     }
 
     footer {
       margin-top: 20px;
       font-size: 0.8rem;
-      color: #777;
+      color: #bbb;
     }
   </style>
 </head>
 <body>
-  <div class="container" id="draggable-box">
+  <div class="container">
     <h1>Transport Tycoon</h1>
-    <h2>Skill of the Day</h2>
-    <div class="sotd">
-      <p>Loading...</p>
+    <h2>Player Stats</h2>
+    <div class="stats">
+      <p><strong>Name:</strong> <span id="player-name">Loading...</span></p>
+      <p><strong>Job:</strong> <span id="player-job">Loading...</span></p>
+      <p><strong>Wallet Balance:</strong> $<span id="player-wallet">0</span></p>
+      <p><strong>Vehicle:</strong> <span id="player-vehicle">None</span></p>
+      <p><strong>Location:</strong> <span id="player-location">Unknown</span></p>
     </div>
+
+    <button id="set-waypoint">Set Waypoint</button>
+    <button id="send-notification">Send Notification</button>
+
     <footer>
-      <p>Data provided by Transport Tycoon API and Goobie</p>
+      <p>Data provided by Transport Tycoon API</p>
     </footer>
   </div>
 
   <script>
-    // JavaScript for draggable functionality
-    const dragElement = document.getElementById("draggable-box");
-
-    dragElement.onmousedown = function (e) {
-      let offsetX = e.clientX - dragElement.getBoundingClientRect().left;
-      let offsetY = e.clientY - dragElement.getBoundingClientRect().top;
-
-      document.onmousemove = function (e) {
-        let newX = e.clientX - offsetX;
-        let newY = e.clientY - offsetY;
-        dragElement.style.left = newX + 'px';
-        dragElement.style.top = newY + 'px';
+    // Listen for data from the game client
+    window.addEventListener('message', (event) => {
+      if (event.data.type === 'playerData') {
+        updatePlayerData(event.data);
       }
+    });
 
-      document.onmouseup = function () {
-        document.onmousemove = null;
-        document.onmouseup = null;
-      }
+    // Update the player stats on the page
+    function updatePlayerData(data) {
+      document.getElementById('player-name').textContent = data.name || 'Unknown';
+      document.getElementById('player-job').textContent = data.job || 'N/A';
+      document.getElementById('player-wallet').textContent = data.wallet || 0;
+      document.getElementById('player-vehicle').textContent = data.vehicle || 'None';
+      document.getElementById('player-location').textContent = `${data.pos_x}, ${data.pos_y}, ${data.pos_z}`;
     }
 
-    dragElement.ondragstart = function () {
-      return false; // Disable the default drag behavior
+    // Set waypoint command
+    document.getElementById('set-waypoint').addEventListener('click', () => {
+      const playerPosition = {
+        x: 500, // Example X coordinate
+        y: 250, // Example Y coordinate
+      };
+
+      sendCommand('setWaypoint', playerPosition);
+    });
+
+    // Send notification command
+    document.getElementById('send-notification').addEventListener('click', () => {
+      const notificationText = 'This is a test notification!';
+      sendCommand('notification', { text: notificationText });
+    });
+
+    // Send a command to the game client
+    function sendCommand(type, data) {
+      const command = { type: type, ...data };
+      window.parent.postMessage(command, '*');
     }
   </script>
 
-  <script src="script.js"></script>
 </body>
 </html>
