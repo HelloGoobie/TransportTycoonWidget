@@ -23,14 +23,14 @@
       position: absolute;
       top: 50px;
       left: 50px;
-      width: 300px; /* Width of the entire window */
+      width: 300px;
       height: 300px;
       background: rgba(255, 255, 255, 0.5);
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       padding: 10px;
       display: flex;
-      flex-direction: row; /* Change to row to allow side-by-side */
+      flex-direction: row;
       overflow: hidden;
       user-select: none;
     }
@@ -59,7 +59,7 @@
       flex-direction: column;
       overflow-y: auto;
       height: 100%;
-      width: 150px; /* Width of the job menu */
+      width: 150px;
       background-color: rgba(0, 0, 0, 0.3);
       border-radius: 5px;
       padding: 5px;
@@ -74,7 +74,7 @@
       border: none;
       cursor: pointer;
       transition: background 0.3s;
-      font-size: 12px; /* Adjusted text size */
+      font-size: 12px;
     }
 
     button:hover {
@@ -82,9 +82,9 @@
     }
 
     .locationMenu {
-      display: none; /* Initially hidden */
+      display: none;
       margin-left: 10px;
-      flex-grow: 1; /* This will take remaining space */
+      flex-grow: 1;
       background-color: rgba(0, 0, 255, 0.5);
       border-radius: 10px;
       padding: 10px;
@@ -93,101 +93,104 @@
     .locationMenu button {
       background-color: rgba(0, 0, 255, 0.7);
       margin-bottom: 5px;
-      font-size: 12px; /* Adjusted text size */
+      font-size: 12px;
+      padding: 6px;
     }
   </style>
 </head>
 <body>
-  <div id="app" class="window">
-    <div id="content" style="display: flex; width: 100%; height: 100%">
-      <!-- Left Side: Job Buttons -->
-      <div id="jobButtons" class="buttons"></div>
 
-      <!-- Right Side: Location Menu (initially hidden) -->
-      <div id="locationButtons" class="locationMenu"></div>
+  <div class="window">
+    <div class="buttons" id="jobMenu">
+      <!-- Job buttons will be dynamically loaded here -->
+    </div>
+    <div class="locationMenu" id="locationMenu">
+      <!-- Location buttons will be dynamically loaded here -->
     </div>
   </div>
 
   <script>
-    const jobButtons = document.getElementById('jobButtons');
-    const locationButtons = document.getElementById('locationButtons');
-    const closeBtn = document.getElementById('closeBtn');
-    let jobs = [
-      "Aerial Firefighter", "Airline Pilot", "Beach Cleaner", "Bus Driver", "Business", 
-      "Cargo Pilot", "Coast Guard", "CollinsCo Cabbies", "Dock Handler", "EMS", "Farming", 
-      "Firefighter", "Fishing", "Garbage Collector", "Heli Pilot", "Hunter", "IAA Delivery", 
-      "Land Survey", "Mechanic", "Miner", "Parking Officer", "PostOp", "Pizza Delivery", 
-      "Quarry", "RTS", "Server Repair", "Street Racing", "Train Conductor", 
-      "Transformer Repair", "Trucking", "Courier"
-    ];
-
-    let locations = {}; // Placeholder for job locations
-
-    // Example function to load location buttons from a JSON file based on job selection
-    const loadLocations = async (job) => {
-      const data = await fetch('locations.json').then(response => response.json());
-
-      if (data[job]) {
-        locationButtons.innerHTML = ''; // Clear any existing location buttons
-        data[job].forEach(location => {
-          const btn = document.createElement('button');
-          btn.innerText = `Set waypoint to ${location.name}`;
-          btn.onclick = () => setWaypoint(location.x, location.y);
-          locationButtons.appendChild(btn);
-        });
-      }
-    };
-
-    // Create job buttons
-    jobs.forEach(job => {
-      const jobButton = document.createElement('button');
-      jobButton.innerText = job;
-      jobButton.onclick = () => {
-        locationButtons.style.display = 'flex'; // Show location buttons
-        loadLocations(job); // Load locations for the selected job
-      };
-      jobButtons.appendChild(jobButton);
-    });
-
     // Function to set the waypoint
-    const setWaypoint = (x, y) => {
-      // Send this command to the game (this is just a mock of the command)
-      const command = { type: 'setWaypoint', x: x, y: y };
-      console.log('Waypoint set:', command); // In the real app, this should send the command to the game client
-    };
+    function setWaypoint(x, y, z) {
+      const command = { type: "setWaypoint", x: x, y: y, z: z };
+      console.log(command); // Replace this with your game's API call to set the waypoint
+      alert(`Waypoint set to: X: ${x}, Y: ${y}, Z: ${z}`);
+    }
+
+    // Function to fetch and load the locations.json
+    async function loadLocations() {
+      const response = await fetch('locations.json'); // Change the URL if necessary
+      const data = await response.json();
+      return data;
+    }
+
+    // Function to create the job buttons dynamically
+    function createJobButtons(locationsData) {
+      const jobMenu = document.getElementById("jobMenu");
+      const jobs = Object.keys(locationsData); // Get the job names (keys)
+      jobs.forEach(job => {
+        const jobButton = document.createElement("button");
+        jobButton.textContent = job;
+        jobButton.onclick = function() {
+          displayLocations(locationsData, job);
+        };
+        jobMenu.appendChild(jobButton);
+      });
+    }
+
+    // Function to display location buttons based on the selected job
+    function displayLocations(locationsData, job) {
+      const locationMenu = document.getElementById("locationMenu");
+      locationMenu.innerHTML = ''; // Clear the previous location buttons
+
+      const locations = locationsData[job];
+      locations.forEach(location => {
+        const locationButton = document.createElement("button");
+        locationButton.textContent = location.name;
+        locationButton.onclick = function() {
+          setWaypoint(location.x, location.y, location.z);
+        };
+        locationMenu.appendChild(locationButton);
+      });
+      locationMenu.style.display = 'block'; // Show the location menu
+    }
 
     // Make the window draggable
-    const windowElement = document.getElementById('app');
     let isDragging = false;
     let offsetX, offsetY;
+    const windowElement = document.querySelector('.window');
+    const headerElement = document.querySelector('.header');
 
-    windowElement.onmousedown = (e) => {
+    headerElement.addEventListener('mousedown', (e) => {
       isDragging = true;
-      offsetX = e.clientX - windowElement.getBoundingClientRect().left;
-      offsetY = e.clientY - windowElement.getBoundingClientRect().top;
-    };
+      offsetX = e.clientX - windowElement.offsetLeft;
+      offsetY = e.clientY - windowElement.offsetTop;
+    });
 
-    document.onmousemove = (e) => {
+    document.addEventListener('mousemove', (e) => {
       if (isDragging) {
-        windowElement.style.left = `${e.clientX - offsetX}px`;
-        windowElement.style.top = `${e.clientY - offsetY}px`;
+        windowElement.style.left = e.clientX - offsetX + 'px';
+        windowElement.style.top = e.clientY - offsetY + 'px';
       }
-    };
+    });
 
-    document.onmouseup = () => {
+    document.addEventListener('mouseup', () => {
       isDragging = false;
+    });
+
+    // Close button functionality
+    const closeBtn = document.getElementById("closeBtn");
+    closeBtn.onclick = function() {
+      window.close(); // Replace with a proper method to close or hide the window
     };
 
-    // Implement custom scrolling with middle mouse wheel
-    let scrollPosition = 0;
+    // Load the locations and initialize the job menu
+    loadLocations().then(locationsData => {
+      createJobButtons(locationsData);
+    }).catch(err => {
+      console.error('Error loading locations.json:', err);
+    });
 
-    window.onwheel = (e) => {
-      if (e.button === 1) { // Only use middle mouse button (wheel)
-        e.preventDefault(); // Prevent the default scroll behavior
-        scrollPosition += e.deltaY;
-        locationButtons.scrollTop = scrollPosition; // Scroll the container manually
-      }
-    };
   </script>
 </body>
 </html>
