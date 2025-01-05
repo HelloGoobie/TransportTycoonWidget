@@ -74,6 +74,16 @@
       font-size: 0.8rem;
       color: #bbb;
     }
+
+    .output {
+      margin-top: 10px;
+      padding: 5px;
+      background-color: #333;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 1rem;
+      text-align: left;
+    }
   </style>
 </head>
 <body>
@@ -108,9 +118,16 @@
       <button id="get-street">Street Name</button>
     </div>
 
+    <div class="category">
+      <h3>Waypoint</h3>
+      <button id="set-waypoint">Set Closest Trainyard Waypoint</button>
+    </div>
+
     <footer>
       <p>Data provided by Transport Tycoon API</p>
     </footer>
+
+    <div class="output" id="output"></div>
   </div>
 
   <script>
@@ -152,51 +169,104 @@
     }
 
     // Update the player stats on the page
+    let playerData = {}; // Store player data globally
+
     function updatePlayerData(data) {
+      playerData = data; // Update the global player data
+
+      // Handle button clicks to show player data
       document.getElementById('get-name').addEventListener('click', () => {
-        alert(`Player Name: ${data.name}`);
+        displayOutput(`Player Name: ${data.name}`);
       });
 
       document.getElementById('get-job').addEventListener('click', () => {
-        alert(`Job: ${data.job}`);
+        displayOutput(`Job: ${data.job}`);
       });
 
       document.getElementById('get-discord').addEventListener('click', () => {
-        alert(`Discord ID: ${data.discord || 'N/A'}`);
+        displayOutput(`Discord ID: ${data.discord || 'N/A'}`);
       });
 
       document.getElementById('get-wallet').addEventListener('click', () => {
-        alert(`Wallet Balance: $${data.wallet}`);
+        displayOutput(`Wallet Balance: $${data.wallet}`);
       });
 
       document.getElementById('get-bank').addEventListener('click', () => {
-        alert(`Bank Balance: $${data.bank}`);
+        displayOutput(`Bank Balance: $${data.bank}`);
       });
 
       document.getElementById('get-vehicle').addEventListener('click', () => {
-        alert(`Current Vehicle: ${data.vehicle || 'None'}`);
+        displayOutput(`Current Vehicle: ${data.vehicle || 'None'}`);
       });
 
       document.getElementById('get-vehicle-make').addEventListener('click', () => {
-        alert(`Vehicle Make: ${data.vehicleMake || 'N/A'}`);
+        displayOutput(`Vehicle Make: ${data.vehicleMake || 'N/A'}`);
       });
 
       document.getElementById('get-vehicle-class').addEventListener('click', () => {
-        alert(`Vehicle Class: ${data.vehicleClassName || 'N/A'}`);
+        displayOutput(`Vehicle Class: ${data.vehicleClassName || 'N/A'}`);
       });
 
       document.getElementById('get-location').addEventListener('click', () => {
-        alert(`Location: X: ${data.pos_x}, Y: ${data.pos_y}, Z: ${data.pos_z}`);
+        displayOutput(`Location: X: ${data.pos_x}, Y: ${data.pos_y}, Z: ${data.pos_z}`);
       });
 
       document.getElementById('get-zone').addEventListener('click', () => {
-        alert(`Current Zone: ${data.zoneName || 'Unknown'}`);
+        displayOutput(`Current Zone: ${data.zoneName || 'Unknown'}`);
       });
 
       document.getElementById('get-street').addEventListener('click', () => {
-        alert(`Street Name: ${data.street || 'Unknown'}`);
+        displayOutput(`Street Name: ${data.street || 'Unknown'}`);
       });
     }
+
+    // Function to display output on the page
+    function displayOutput(message) {
+      const output = document.getElementById('output');
+      output.textContent = message;
+    }
+
+    // Function to set waypoint to closest trainyard
+    function setClosestTrainyard() {
+      if (!playerData.pos_x || !playerData.pos_y) {
+        displayOutput("Player location data is missing.");
+        return;
+      }
+
+      // List of trainyard coordinates (example)
+      const trainyards = [
+        { name: "Trainyard A", x: 1000, y: 1500 },
+        { name: "Trainyard B", x: 2000, y: 2500 },
+        { name: "Trainyard C", x: 1500, y: 3000 }
+      ];
+
+      // Calculate closest trainyard based on current player location
+      let closestTrainyard = trainyards[0];
+      let minDistance = getDistance(playerData.pos_x, playerData.pos_y, closestTrainyard.x, closestTrainyard.y);
+
+      for (let i = 1; i < trainyards.length; i++) {
+        const distance = getDistance(playerData.pos_x, playerData.pos_y, trainyards[i].x, trainyards[i].y);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestTrainyard = trainyards[i];
+        }
+      }
+
+      // Set waypoint to the closest trainyard
+      const command = { type: "setWaypoint", x: closestTrainyard.x, y: closestTrainyard.y };
+      window.parent.postMessage(command, '*');
+      displayOutput(`Waypoint set to: ${closestTrainyard.name}`);
+    }
+
+    // Calculate distance between two points (Haversine formula)
+    function getDistance(x1, y1, x2, y2) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    // Set up the button for setting the waypoint
+    document.getElementById('set-waypoint').addEventListener('click', setClosestTrainyard);
 
     // Fetch player data when the app loads
     fetchPlayerData();
