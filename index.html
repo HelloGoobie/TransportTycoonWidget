@@ -9,34 +9,40 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: rgba(0, 0, 0, 0); /* Transparent background */
       color: #fff;
       text-align: center;
       height: 100vh;
+      overflow: hidden;
     }
 
     .container {
       max-width: 500px;
       margin: 0 auto;
       padding: 20px;
-      background: #333;
+      background: rgba(0, 0, 0, 0.7); /* Transparent container with slight background for visibility */
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      cursor: move;
+      z-index: 1000;
     }
 
     h1 {
       color: #f39c12;
     }
 
-    .stats {
+    .category {
       margin: 20px 0;
       padding: 10px;
       background: #444;
       border-radius: 5px;
+      display: inline-block;
+      width: 100%;
+      text-align: left;
     }
 
     button {
@@ -62,19 +68,36 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="draggable-container">
     <h1>Transport Tycoon</h1>
     <h2>Player Stats</h2>
-    <div class="stats">
-      <p><strong>Name:</strong> <span id="player-name">Loading...</span></p>
-      <p><strong>Job:</strong> <span id="player-job">Loading...</span></p>
-      <p><strong>Wallet Balance:</strong> $<span id="player-wallet">0</span></p>
-      <p><strong>Vehicle:</strong> <span id="player-vehicle">None</span></p>
-      <p><strong>Location:</strong> <span id="player-location">Unknown</span></p>
+    
+    <div class="category">
+      <h3>Personal Information</h3>
+      <button id="get-name">Name</button>
+      <button id="get-job">Job</button>
+      <button id="get-discord">Discord ID</button>
     </div>
 
-    <button id="set-waypoint">Set Waypoint</button>
-    <button id="send-notification">Send Notification</button>
+    <div class="category">
+      <h3>Financial Information</h3>
+      <button id="get-wallet">Wallet Balance</button>
+      <button id="get-bank">Bank Balance</button>
+    </div>
+
+    <div class="category">
+      <h3>Vehicle Information</h3>
+      <button id="get-vehicle">Current Vehicle</button>
+      <button id="get-vehicle-make">Vehicle Make</button>
+      <button id="get-vehicle-class">Vehicle Class</button>
+    </div>
+
+    <div class="category">
+      <h3>Location Information</h3>
+      <button id="get-location">Location</button>
+      <button id="get-zone">Current Zone</button>
+      <button id="get-street">Street Name</button>
+    </div>
 
     <footer>
       <p>Data provided by Transport Tycoon API</p>
@@ -82,6 +105,30 @@
   </div>
 
   <script>
+    // Make the app draggable
+    const container = document.getElementById('draggable-container');
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    container.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - container.getBoundingClientRect().left;
+      offsetY = e.clientY - container.getBoundingClientRect().top;
+      container.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        container.style.left = e.clientX - offsetX + 'px';
+        container.style.top = e.clientY - offsetY + 'px';
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+      container.style.cursor = 'move';
+    });
+
     // Listen for data from the game client
     window.addEventListener('message', (event) => {
       if (event.data.type === 'playerData') {
@@ -89,36 +136,61 @@
       }
     });
 
-    // Update the player stats on the page
-    function updatePlayerData(data) {
-      document.getElementById('player-name').textContent = data.name || 'Unknown';
-      document.getElementById('player-job').textContent = data.job || 'N/A';
-      document.getElementById('player-wallet').textContent = data.wallet || 0;
-      document.getElementById('player-vehicle').textContent = data.vehicle || 'None';
-      document.getElementById('player-location').textContent = `${data.pos_x}, ${data.pos_y}, ${data.pos_z}`;
-    }
-
-    // Set waypoint command
-    document.getElementById('set-waypoint').addEventListener('click', () => {
-      const playerPosition = {
-        x: 500, // Example X coordinate
-        y: 250, // Example Y coordinate
-      };
-
-      sendCommand('setWaypoint', playerPosition);
-    });
-
-    // Send notification command
-    document.getElementById('send-notification').addEventListener('click', () => {
-      const notificationText = 'This is a test notification!';
-      sendCommand('notification', { text: notificationText });
-    });
-
-    // Send a command to the game client
-    function sendCommand(type, data) {
-      const command = { type: type, ...data };
+    // Fetch player data from the game client using getData
+    function fetchPlayerData() {
+      const command = { type: "getData" };
       window.parent.postMessage(command, '*');
     }
+
+    // Update the player stats on the page
+    function updatePlayerData(data) {
+      document.getElementById('get-name').addEventListener('click', () => {
+        alert(`Player Name: ${data.name}`);
+      });
+
+      document.getElementById('get-job').addEventListener('click', () => {
+        alert(`Job: ${data.job}`);
+      });
+
+      document.getElementById('get-discord').addEventListener('click', () => {
+        alert(`Discord ID: ${data.discord || 'N/A'}`);
+      });
+
+      document.getElementById('get-wallet').addEventListener('click', () => {
+        alert(`Wallet Balance: $${data.wallet}`);
+      });
+
+      document.getElementById('get-bank').addEventListener('click', () => {
+        alert(`Bank Balance: $${data.bank}`);
+      });
+
+      document.getElementById('get-vehicle').addEventListener('click', () => {
+        alert(`Current Vehicle: ${data.vehicle || 'None'}`);
+      });
+
+      document.getElementById('get-vehicle-make').addEventListener('click', () => {
+        alert(`Vehicle Make: ${data.vehicleMake || 'N/A'}`);
+      });
+
+      document.getElementById('get-vehicle-class').addEventListener('click', () => {
+        alert(`Vehicle Class: ${data.vehicleClassName || 'N/A'}`);
+      });
+
+      document.getElementById('get-location').addEventListener('click', () => {
+        alert(`Location: X: ${data.pos_x}, Y: ${data.pos_y}, Z: ${data.pos_z}`);
+      });
+
+      document.getElementById('get-zone').addEventListener('click', () => {
+        alert(`Current Zone: ${data.zoneName || 'Unknown'}`);
+      });
+
+      document.getElementById('get-street').addEventListener('click', () => {
+        alert(`Street Name: ${data.street || 'Unknown'}`);
+      });
+    }
+
+    // Fetch player data when the app loads
+    fetchPlayerData();
   </script>
 
 </body>
