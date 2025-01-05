@@ -9,7 +9,8 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f3f4f6;
+            background-color: transparent;
+            overflow: hidden;
         }
 
         #menu {
@@ -61,16 +62,23 @@
         #shelf {
             position: fixed;
             top: 0;
-            right: -300px;
+            right: 0;
             height: 100%;
             width: 300px;
             background: #1e293b;
             color: white;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
             overflow-y: auto;
-            transition: right 0.4s ease;
+            transition: transform 0.4s ease, opacity 0.4s ease;
             padding: 20px;
             z-index: 1000;
+            transform: translateX(100%); /* Start off-screen */
+            opacity: 0; /* Fully transparent */
+        }
+
+        #shelf.open {
+            transform: translateX(0); /* Slide into view */
+            opacity: 1; /* Fully visible */
         }
 
         #shelf h3 {
@@ -174,14 +182,14 @@
                 locationList.appendChild(li);
             });
 
-            // Slide the shelf in
-            shelf.style.right = "0";
+            // Slide the shelf in and make it visible
+            shelf.classList.add("open");
         });
 
         // Close the shelf by clicking anywhere outside
         document.addEventListener("click", (e) => {
             if (!shelf.contains(e.target) && !viewLocationsButton.contains(e.target)) {
-                shelf.style.right = "-300px";
+                shelf.classList.remove("open");
             }
         });
 
