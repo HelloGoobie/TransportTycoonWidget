@@ -15,9 +15,13 @@
     { "name": "Bus Stop 1", "x": 200, "y": 300 },
     { "name": "Bus Stop 2", "x": 400, "y": 500 }
   ],
+{
   "Business": [
-    { "name": "Business HQ", "x": 600, "y": 700 },
-    { "name": "Warehouse Location", "x": 800, "y": 900 }
+    { "name": "Wenger Institute", "x": -368.79766845703, "y": -240.53649902344, "z": 36.080070495605 },
+    { "name": "La Vaca Loco", "x": 142.927383, "y": -1520.104736, "z": 29.836950 },
+    { "name": "Vespucci Movie Masks", "x": -1337.976440, "y": -1276.094116, "z": 4.895197 },
+    { "name": "Mr. Spoke's Bike Rental", "x": -1106.429565, "y": -1695.158203, "z": 4.373420 },
+    { "name": "Sandy Shores Liquor", "x": 1952.636353, "y": 3842.005371, "z": 32.178314 }
   ],
   "Cargo Pilot": [
     { "name": "Cargo Depot", "x": 1000, "y": 1200 },
