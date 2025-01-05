@@ -23,12 +23,16 @@
       position: absolute;
       top: 50px;
       left: 50px;
-      width: 250px;
+      width: 300px; /* Width of the entire window */
+      height: 300px;
       background: rgba(255, 255, 255, 0.5);
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       padding: 10px;
+      display: flex;
+      flex-direction: row; /* Change to row to allow side-by-side */
       overflow: hidden;
+      user-select: none;
     }
 
     .header {
@@ -38,6 +42,7 @@
       background-color: rgba(0, 0, 0, 0.2);
       padding: 5px;
       border-radius: 10px;
+      cursor: move;
     }
 
     #closeBtn {
@@ -52,10 +57,16 @@
       margin-top: 10px;
       display: flex;
       flex-direction: column;
+      overflow-y: auto;
+      height: 100%;
+      width: 150px; /* Width of the job menu */
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      padding: 5px;
     }
 
     button {
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.5);
       color: white;
       padding: 8px;
       margin-bottom: 5px;
@@ -66,21 +77,21 @@
     }
 
     button:hover {
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.7);
     }
 
-    #jobButtons {
-      display: flex;
-      flex-direction: column;
+    .locationMenu {
+      display: none; /* Initially hidden */
+      margin-left: 10px;
+      flex-grow: 1; /* This will take remaining space */
+      background-color: rgba(0, 0, 255, 0.5);
+      border-radius: 10px;
+      padding: 10px;
     }
 
-    #locationButtons {
-      display: none;
-      flex-direction: column;
-    }
-
-    #locationButtons button {
-      background-color: rgba(0, 0, 255, 0.6);
+    .locationMenu button {
+      background-color: rgba(0, 0, 255, 0.7);
+      margin-bottom: 5px;
     }
   </style>
 </head>
@@ -90,9 +101,12 @@
       <span>Waypoint App</span>
       <button id="closeBtn">X</button>
     </div>
-    <div id="content">
+    <div id="content" style="display: flex; width: 100%; height: 100%">
+      <!-- Left Side: Job Buttons -->
       <div id="jobButtons" class="buttons"></div>
-      <div id="locationButtons" class="buttons"></div>
+
+      <!-- Right Side: Location Menu (initially hidden) -->
+      <div id="locationButtons" class="locationMenu"></div>
     </div>
   </div>
 
@@ -109,14 +123,14 @@
       "Transformer Repair", "Trucking", "Courier"
     ];
 
-    let locations = {}; 
+    let locations = {}; // Placeholder for job locations
 
-
+    // Example function to load location buttons from a JSON file based on job selection
     const loadLocations = async (job) => {
       const data = await fetch('locations.json').then(response => response.json());
 
       if (data[job]) {
-        locationButtons.innerHTML = '';
+        locationButtons.innerHTML = ''; // Clear any existing location buttons
         data[job].forEach(location => {
           const btn = document.createElement('button');
           btn.innerText = `Set waypoint to ${location.name}`;
@@ -131,8 +145,8 @@
       const jobButton = document.createElement('button');
       jobButton.innerText = job;
       jobButton.onclick = () => {
-        locationButtons.style.display = 'flex'; 
-        loadLocations(job); 
+        locationButtons.style.display = 'flex'; // Show location buttons
+        loadLocations(job); // Load locations for the selected job
       };
       jobButtons.appendChild(jobButton);
     });
@@ -140,12 +154,12 @@
     // Function to set the waypoint
     const setWaypoint = (x, y) => {
       const command = { type: 'setWaypoint', x: x, y: y };
-      console.log(command); 
+      console.log(command); // Send this command to the game
     };
 
-
+    // Close button functionality
     closeBtn.onclick = () => {
-      window.close(); 
+      window.close(); // This will close the window (not supported on all browsers)
     };
 
     // Make the window draggable
@@ -167,6 +181,17 @@
 
     document.onmouseup = () => {
       isDragging = false;
+    };
+
+    // Implement custom scrolling with middle mouse wheel
+    let scrollPosition = 0;
+
+    window.onwheel = (e) => {
+      if (e.button === 1) { // Only use middle mouse button (wheel)
+        e.preventDefault(); // Prevent the default scroll behavior
+        scrollPosition += e.deltaY;
+        locationButtons.scrollTop = scrollPosition; // Scroll the container manually
+      }
     };
   </script>
 </body>
