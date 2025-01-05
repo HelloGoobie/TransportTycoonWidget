@@ -3,274 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transport Tycoon - Player Stats</title>
+  <title>Waypoint App</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    * {
       margin: 0;
       padding: 0;
-      background-color: rgba(0, 0, 0, 0); /* Transparent background */
-      color: #fff;
-      text-align: center;
-      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+    }
+
+    .window {
+      position: absolute;
+      top: 50px;
+      left: 50px;
+      width: 250px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 10px;
       overflow: hidden;
     }
 
-    .container {
-      width: 300px; /* Smaller container width */
-      height: 400px; /* Smaller container height */
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.7); /* Transparent container with slight background for visibility */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      cursor: move;
-      z-index: 1000;
-      resize: both;
-      overflow: auto;
-    }
-
-    h1 {
-      color: #f39c12;
-      font-size: 1.5rem; /* Adjusted font size */
-      margin: 0;
-    }
-
-    h2 {
-      color: #fff;
-      font-size: 1rem; /* Adjusted font size */
-    }
-
-    .category {
-      margin: 15px 0;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.2);
       padding: 5px;
-      background: #444;
-      border-radius: 5px;
-      display: inline-block;
-      width: 100%;
-      text-align: left;
+      border-radius: 10px;
+    }
+
+    #closeBtn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .buttons {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
     }
 
     button {
-      padding: 8px 16px;
-      margin: 5px;
-      background-color: #c0392b;
-      border: none;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      padding: 8px;
+      margin-bottom: 5px;
       border-radius: 5px;
-      color: #fff;
+      border: none;
       cursor: pointer;
-      font-size: 0.9rem;
+      transition: background 0.3s;
     }
 
     button:hover {
-      background-color: #e74c3c;
+      background: rgba(0, 0, 0, 0.5);
     }
 
-    footer {
-      margin-top: 10px;
-      font-size: 0.8rem;
-      color: #bbb;
+    #jobButtons {
+      display: flex;
+      flex-direction: column;
     }
 
-    .output {
-      margin-top: 10px;
-      padding: 5px;
-      background-color: #333;
-      border-radius: 5px;
-      color: #fff;
-      font-size: 1rem;
-      text-align: left;
+    #locationButtons {
+      display: none;
+      flex-direction: column;
+    }
+
+    #locationButtons button {
+      background-color: rgba(0, 0, 255, 0.6);
     }
   </style>
 </head>
 <body>
-  <div class="container" id="draggable-container">
-    <h1>Transport Tycoon</h1>
-    <h2>Player Stats</h2>
-    
-    <div class="category">
-      <h3>Personal Information</h3>
-      <button id="get-name">Name</button>
-      <button id="get-job">Job</button>
-      <button id="get-discord">Discord ID</button>
+  <div id="app" class="window">
+    <div id="header" class="header">
+      <span>Waypoint App</span>
+      <button id="closeBtn">X</button>
     </div>
-
-    <div class="category">
-      <h3>Financial Information</h3>
-      <button id="get-wallet">Wallet Balance</button>
-      <button id="get-bank">Bank Balance</button>
+    <div id="content">
+      <div id="jobButtons" class="buttons"></div>
+      <div id="locationButtons" class="buttons"></div>
     </div>
-
-    <div class="category">
-      <h3>Vehicle Information</h3>
-      <button id="get-vehicle">Current Vehicle</button>
-      <button id="get-vehicle-make">Vehicle Make</button>
-      <button id="get-vehicle-class">Vehicle Class</button>
-    </div>
-
-    <div class="category">
-      <h3>Location Information</h3>
-      <button id="get-location">Location</button>
-      <button id="get-zone">Current Zone</button>
-      <button id="get-street">Street Name</button>
-    </div>
-
-    <div class="category">
-      <h3>Waypoint</h3>
-      <button id="set-waypoint">Set Closest Trainyard Waypoint</button>
-    </div>
-
-    <footer>
-      <p>Data provided by Transport Tycoon API</p>
-    </footer>
-
-    <div class="output" id="output"></div>
   </div>
 
   <script>
-    // Make the app draggable
-    const container = document.getElementById('draggable-container');
+    const jobButtons = document.getElementById('jobButtons');
+    const locationButtons = document.getElementById('locationButtons');
+    const closeBtn = document.getElementById('closeBtn');
+    let jobs = [
+      "Aerial Firefighter", "Airline Pilot", "Beach Cleaner", "Bus Driver", "Business", 
+      "Cargo Pilot", "Coast Guard", "CollinsCo Cabbies", "Dock Handler", "EMS", "Farming", 
+      "Firefighter", "Fishing", "Garbage Collector", "Heli Pilot", "Hunter", "IAA Delivery", 
+      "Land Survey", "Mechanic", "Miner", "Parking Officer", "PostOp", "Pizza Delivery", 
+      "Quarry", "RTS", "Server Repair", "Street Racing", "Train Conductor", 
+      "Transformer Repair", "Trucking", "Courier"
+    ];
+
+    let locations = {}; 
+
+
+    const loadLocations = async (job) => {
+      const data = await fetch('locations.json').then(response => response.json());
+
+      if (data[job]) {
+        locationButtons.innerHTML = '';
+        data[job].forEach(location => {
+          const btn = document.createElement('button');
+          btn.innerText = `Set waypoint to ${location.name}`;
+          btn.onclick = () => setWaypoint(location.x, location.y);
+          locationButtons.appendChild(btn);
+        });
+      }
+    };
+
+    // Create job buttons
+    jobs.forEach(job => {
+      const jobButton = document.createElement('button');
+      jobButton.innerText = job;
+      jobButton.onclick = () => {
+        locationButtons.style.display = 'flex'; 
+        loadLocations(job); 
+      };
+      jobButtons.appendChild(jobButton);
+    });
+
+    // Function to set the waypoint
+    const setWaypoint = (x, y) => {
+      const command = { type: 'setWaypoint', x: x, y: y };
+      console.log(command); 
+    };
+
+
+    closeBtn.onclick = () => {
+      window.close(); 
+    };
+
+    // Make the window draggable
+    const header = document.getElementById('header');
     let isDragging = false;
     let offsetX, offsetY;
 
-    container.addEventListener('mousedown', (e) => {
+    header.onmousedown = (e) => {
       isDragging = true;
-      offsetX = e.clientX - container.getBoundingClientRect().left;
-      offsetY = e.clientY - container.getBoundingClientRect().top;
-      container.style.cursor = 'grabbing';
-    });
+      offsetX = e.clientX - window.screenX;
+      offsetY = e.clientY - window.screenY;
+    };
 
-    window.addEventListener('mousemove', (e) => {
+    document.onmousemove = (e) => {
       if (isDragging) {
-        container.style.left = e.clientX - offsetX + 'px';
-        container.style.top = e.clientY - offsetY + 'px';
+        window.moveTo(e.clientX - offsetX, e.clientY - offsetY);
       }
-    });
+    };
 
-    window.addEventListener('mouseup', () => {
+    document.onmouseup = () => {
       isDragging = false;
-      container.style.cursor = 'move';
-    });
-
-    // Listen for data from the game client
-    window.addEventListener('message', (event) => {
-      if (event.data.type === 'playerData') {
-        updatePlayerData(event.data);
-      }
-    });
-
-    // Fetch player data from the game client using getData
-    function fetchPlayerData() {
-      const command = { type: "getData" };
-      window.parent.postMessage(command, '*');
-    }
-
-    // Update the player stats on the page
-    let playerData = {}; // Store player data globally
-
-    function updatePlayerData(data) {
-      playerData = data; // Update the global player data
-
-      // Handle button clicks to show player data
-      document.getElementById('get-name').addEventListener('click', () => {
-        displayOutput(`Player Name: ${data.name}`);
-      });
-
-      document.getElementById('get-job').addEventListener('click', () => {
-        displayOutput(`Job: ${data.job}`);
-      });
-
-      document.getElementById('get-discord').addEventListener('click', () => {
-        displayOutput(`Discord ID: ${data.discord || 'N/A'}`);
-      });
-
-      document.getElementById('get-wallet').addEventListener('click', () => {
-        displayOutput(`Wallet Balance: $${data.wallet}`);
-      });
-
-      document.getElementById('get-bank').addEventListener('click', () => {
-        displayOutput(`Bank Balance: $${data.bank}`);
-      });
-
-      document.getElementById('get-vehicle').addEventListener('click', () => {
-        displayOutput(`Current Vehicle: ${data.vehicle || 'None'}`);
-      });
-
-      document.getElementById('get-vehicle-make').addEventListener('click', () => {
-        displayOutput(`Vehicle Make: ${data.vehicleMake || 'N/A'}`);
-      });
-
-      document.getElementById('get-vehicle-class').addEventListener('click', () => {
-        displayOutput(`Vehicle Class: ${data.vehicleClassName || 'N/A'}`);
-      });
-
-      document.getElementById('get-location').addEventListener('click', () => {
-        displayOutput(`Location: X: ${data.pos_x}, Y: ${data.pos_y}, Z: ${data.pos_z}`);
-      });
-
-      document.getElementById('get-zone').addEventListener('click', () => {
-        displayOutput(`Current Zone: ${data.zoneName || 'Unknown'}`);
-      });
-
-      document.getElementById('get-street').addEventListener('click', () => {
-        displayOutput(`Street Name: ${data.street || 'Unknown'}`);
-      });
-    }
-
-    // Function to display output on the page
-    function displayOutput(message) {
-      const output = document.getElementById('output');
-      output.textContent = message;
-    }
-
-    // Function to set waypoint to closest trainyard
-    function setClosestTrainyard() {
-      if (!playerData.pos_x || !playerData.pos_y) {
-        displayOutput("Player location data is missing.");
-        return;
-      }
-
-      // List of trainyard coordinates (example)
-      const trainyards = [
-        { name: "Trainyard A", x: 1000, y: 1500 },
-        { name: "Trainyard B", x: 2000, y: 2500 },
-        { name: "Trainyard C", x: 1500, y: 3000 }
-      ];
-
-      // Calculate closest trainyard based on current player location
-      let closestTrainyard = trainyards[0];
-      let minDistance = getDistance(playerData.pos_x, playerData.pos_y, closestTrainyard.x, closestTrainyard.y);
-
-      for (let i = 1; i < trainyards.length; i++) {
-        const distance = getDistance(playerData.pos_x, playerData.pos_y, trainyards[i].x, trainyards[i].y);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestTrainyard = trainyards[i];
-        }
-      }
-
-      // Set waypoint to the closest trainyard
-      const command = { type: "setWaypoint", x: closestTrainyard.x, y: closestTrainyard.y };
-      window.parent.postMessage(command, '*');
-      displayOutput(`Waypoint set to: ${closestTrainyard.name}`);
-    }
-
-    // Calculate distance between two points (Haversine formula)
-    function getDistance(x1, y1, x2, y2) {
-      const dx = x2 - x1;
-      const dy = y2 - y1;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    // Set up the button for setting the waypoint
-    document.getElementById('set-waypoint').addEventListener('click', setClosestTrainyard);
-
-    // Fetch player data when the app loads
-    fetchPlayerData();
+    };
   </script>
-
 </body>
 </html>
