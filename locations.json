@@ -1,0 +1,126 @@
+{
+  "Aerial Firefighter": [
+    { "name": "Location 1", "x": 500, "y": 250 },
+    { "name": "Location 2", "x": 1000, "y": 500 }
+  ],
+  "Airline Pilot": [
+    { "name": "Airport Runway", "x": 1500, "y": 1000 },
+    { "name": "Sky Location 1", "x": 2000, "y": 1200 }
+  ],
+  "Beach Cleaner": [
+    { "name": "Beach Location 1", "x": 100, "y": 200 },
+    { "name": "Beach Location 2", "x": 300, "y": 400 }
+  ],
+  "Bus Driver": [
+    { "name": "Bus Stop 1", "x": 200, "y": 300 },
+    { "name": "Bus Stop 2", "x": 400, "y": 500 }
+  ],
+  "Business": [
+    { "name": "Business HQ", "x": 600, "y": 700 },
+    { "name": "Warehouse Location", "x": 800, "y": 900 }
+  ],
+  "Cargo Pilot": [
+    { "name": "Cargo Depot", "x": 1000, "y": 1200 },
+    { "name": "Hangar 1", "x": 1200, "y": 1400 }
+  ],
+  "Coast Guard": [
+    { "name": "Coast Guard Base", "x": 500, "y": 1000 },
+    { "name": "Coastal Patrol", "x": 600, "y": 1100 }
+  ],
+  "CollinsCo Cabbies": [
+    { "name": "Taxi Stand 1", "x": 300, "y": 600 },
+    { "name": "Taxi Stand 2", "x": 500, "y": 700 }
+  ],
+  "Dock Handler": [
+    { "name": "Dock 1", "x": 700, "y": 800 },
+    { "name": "Dock 2", "x": 900, "y": 1000 }
+  ],
+  "EMS": [
+    { "name": "Hospital Entrance", "x": 400, "y": 500 },
+    { "name": "Ambulance Location", "x": 600, "y": 700 }
+  ],
+  "Farming": [
+    { "name": "Farm 1", "x": 150, "y": 300 },
+    { "name": "Farm 2", "x": 350, "y": 500 }
+  ],
+  "Firefighter": [
+    { "name": "Fire Station 1", "x": 200, "y": 400 },
+    { "name": "Fire Location", "x": 450, "y": 650 }
+  ],
+  "Fishing": [
+    { "name": "Fishing Spot 1", "x": 100, "y": 200 },
+    { "name": "Fishing Spot 2", "x": 250, "y": 400 }
+  ],
+  "Garbage Collector": [
+    { "name": "Garbage Location 1", "x": 700, "y": 800 },
+    { "name": "Garbage Location 2", "x": 900, "y": 950 }
+  ],
+  "Heli Pilot": [
+    { "name": "Helicopter Pad", "x": 500, "y": 600 },
+    { "name": "Heli Location 1", "x": 700, "y": 800 }
+  ],
+  "Hunter": [
+    { "name": "Hunting Ground 1", "x": 1200, "y": 1400 },
+    { "name": "Hunting Ground 2", "x": 1500, "y": 1600 }
+  ],
+  "IAA Delivery": [
+    { "name": "IAA Location 1", "x": 500, "y": 200 },
+    { "name": "IAA Location 2", "x": 700, "y": 350 }
+  ],
+  "Land Survey": [
+    { "name": "Survey Site 1", "x": 300, "y": 500 },
+    { "name": "Survey Site 2", "x": 400, "y": 600 }
+  ],
+  "Mechanic": [
+    { "name": "Garage 1", "x": 600, "y": 700 },
+    { "name": "Workshop", "x": 800, "y": 950 }
+  ],
+  "Miner": [
+    { "name": "Mine 1", "x": 1200, "y": 1500 },
+    { "name": "Mine 2", "x": 1400, "y": 1700 }
+  ],
+  "Parking Officer": [
+    { "name": "Parking Lot 1", "x": 100, "y": 200 },
+    { "name": "Parking Lot 2", "x": 300, "y": 400 }
+  ],
+  "PostOp": [
+    { "name": "PostOp Depot", "x": 500, "y": 500 },
+    { "name": "PostOp Drop-off", "x": 700, "y": 750 }
+  ],
+  "Pizza Delivery": [
+    { "name": "Pizza Store", "x": 100, "y": 150 },
+    { "name": "Delivery Location", "x": 250, "y": 300 }
+  ],
+  "Quarry": [
+    { "name": "Quarry Site 1", "x": 800, "y": 1100 },
+    { "name": "Quarry Site 2", "x": 1000, "y": 1300 }
+  ],
+  "RTS": [
+    { "name": "RTS Location 1", "x": 300, "y": 400 },
+    { "name": "RTS Location 2", "x": 500, "y": 600 }
+  ],
+  "Server Repair": [
+    { "name": "Repair Site 1", "x": 200, "y": 300 },
+    { "name": "Repair Site 2", "x": 400, "y": 500 }
+  ],
+  "Street Racing": [
+    { "name": "Race Location 1", "x": 700, "y": 800 },
+    { "name": "Race Location 2", "x": 900, "y": 950 }
+  ],
+  "Train Conductor": [
+    { "name": "Train Station 1", "x": 1000, "y": 1200 },
+    { "name": "Train Station 2", "x": 1100, "y": 1300 }
+  ],
+  "Transformer Repair": [
+    { "name": "Repair Site 1", "x": 600, "y": 700 },
+    { "name": "Repair Site 2", "x": 800, "y": 950 }
+  ],
+  "Trucking": [
+    { "name": "Truck Depot", "x": 1200, "y": 1400 },
+    { "name": "Truck Drop-off", "x": 1300, "y": 1500 }
+  ],
+  "Courier": [
+    { "name": "Courier HQ", "x": 500, "y": 600 },
+    { "name": "Courier Drop-off", "x": 700, "y": 800 }
+  ]
+}
