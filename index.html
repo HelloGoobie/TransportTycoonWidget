@@ -7,12 +7,15 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      background-color: transparent; /* Set the background of the page to transparent */
       color: #333;
       text-align: center;
-      margin: 0;
-      padding: 20px;
+      height: 100vh; /* Full viewport height */
+      overflow: hidden; /* Prevents the body from scrolling */
     }
+
     .container {
       max-width: 500px;
       margin: 0 auto;
@@ -20,13 +23,21 @@
       background: #fff;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
+      position: absolute; /* So we can position it absolutely within the window */
+      top: 50%; /* Center vertically */
+      left: 50%; /* Center horizontally */
+      transform: translate(-50%, -50%); /* Adjust the positioning to make it truly centered */
+      cursor: move; /* Shows a move cursor */
     }
+
     h1 {
       color: #c0392b;
     }
+
     .sotd {
       margin: 20px 0;
     }
+
     footer {
       margin-top: 20px;
       font-size: 0.8rem;
@@ -35,7 +46,7 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="draggable-box">
     <h1>Transport Tycoon</h1>
     <h2>Skill of the Day</h2>
     <div class="sotd">
@@ -45,6 +56,33 @@
       <p>Data provided by Transport Tycoon API</p>
     </footer>
   </div>
+
+  <script>
+    // JavaScript for draggable functionality
+    const dragElement = document.getElementById("draggable-box");
+
+    dragElement.onmousedown = function (e) {
+      let offsetX = e.clientX - dragElement.getBoundingClientRect().left;
+      let offsetY = e.clientY - dragElement.getBoundingClientRect().top;
+
+      document.onmousemove = function (e) {
+        let newX = e.clientX - offsetX;
+        let newY = e.clientY - offsetY;
+        dragElement.style.left = newX + 'px';
+        dragElement.style.top = newY + 'px';
+      }
+
+      document.onmouseup = function () {
+        document.onmousemove = null;
+        document.onmouseup = null;
+      }
+    }
+
+    dragElement.ondragstart = function () {
+      return false; // Disable the default drag behavior
+    }
+  </script>
+
   <script src="script.js"></script>
 </body>
 </html>
