@@ -354,6 +354,7 @@
                     window.parent.postMessage({ type: "setWaypoint", x, y }, "*");
                     console.log(`Waypoint set to: X=${x}, Y=${y}`);
                     sendPinCommand(); // Send the "pin" command
+                    shelf.classList.remove("open");
                 });
                 locationList.appendChild(li);
             });
