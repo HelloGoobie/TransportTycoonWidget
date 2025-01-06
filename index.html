@@ -111,9 +111,12 @@
             border-radius: 5px;
             border: none;
             background: #64748b;
-            color: white;
+            color: white !important; /* Force the text color to be white */
+            caret-color: white; /* Ensures the text cursor is also white */
             outline: none;
+            -webkit-text-fill-color: white; /* Fix for WebKit-based browsers */
         }
+
 
         .moveable {
             cursor: grab;
@@ -141,20 +144,101 @@
         { "name": "Location 1", "x": 500, "y": 250 },
         { "name": "Location 2", "x": 1000, "y": 500 }
         ],
+        "Bus Driver": [
+        {"name": "Los Santos Inner City - Los Santos", "x": 458.22918701172, "y": -647.82464599609, "z": 28.214540481567 - 1.0},
+        {"name": "Los Santos Inner City - Local", "x": 458.88021850586, "y": -640.00115966797, "z": 28.531917572021 - 1.0},
+        {"name": "Los Santos Inner City - Express", "x": 459.24084472656, "y": -632.91168212891, "z": 27.499816894531},
+        {"name": "Los Santos Inner City - Coach", "x": 459.91235351563, "y": -626.42700195313, "z": 27.499797821045},
+        {"name": "LSIA Shuttle Bus Service", "x": 457.52465820313, "y": -654.92889404297, "z": 28.583026885986 - 1.5},
+        {"name": "Sandy Shores Bus Service", "x": 1955.0, "y": 3771.0, "z": 31.2},
+        {"name": "Paleto Bay Bus Service", "x": -362.9, "y": 6069.8, "z": 30.5},
+        {"name": "Zancudo Start", "x": -2344.502930, "y": 3246.406982, "z": 32.628830},
+        ],
         "Airline Pilot": [
-        { "name": "Airport Runway", "x": 1500, "y": 1000 },
-        { "name": "Sky Location 1", "x": 2000, "y": 1200 }
+        { "name": "Mount Gordo Airport", "x": 2273.4418945313, "y": 7002.625, "z": 21.018964767456 },
+        { "name": "Pacific Ocean Airport", "x": 3008.455078125, "y": -716.60382080078, "z": 19.438777923584 },
+        { "name": "Paleto Bay Airport", "x": -260.0876159668, "y": 6849.8837890625, "z": 10.766050338745 },
+        { "name": "PostOP Airport", "x": 997.18182373047, "y": -3415.9108886719, "z": 4.7015933990479 },
+        { "name": "San Chianski Airport", "x": 6352.2573242188, "y": 3552.1267089844, "z": 11.999998092651 },
+        { "name": "Sandy Shores International Airport", "x": 527.73162841797, "y": 3830.0900878906, "z": 33.099807739258 },
+        { "name": "Fort Zancudo", "x": -2123.1623535156, "y": 3133.2165527344, "z": 32.810157775879 },
+        { "name": "Los Santos International Airport", "x": -1036.0007324219, "y": -2730.0002441406, "z": 13.756000518799 }
         ],
         "Beach Cleaner": [
         { "name": "Beach Location 1", "x": 100, "y": 200 },
         { "name": "Beach Location 2", "x": 300, "y": 400 }
         ],
         "Business": [
-        { "name": "La Vaca Loco", "x": 142.927383, "y": -1520.104736, "z": 29.836950 },
-        { "name": "Mr. Spoke's Bike Rental", "x": -1106.429565, "y": -1695.158203, "z": 4.373420 },
-        { "name": "Sandy Shores Liquor", "x": 1952.636353, "y": 3842.005371, "z": 32.178314 },
-        { "name": "Vespucci Movie Masks", "x": -1337.976440, "y": -1276.094116, "z": 4.895197 },
-        { "name": "Wenger Institute", "x": -368.79766845703, "y": -240.53649902344, "z": 36.080070495605 }
+        {"name": "4 Integrity Way", "x": "-14.722967", "y": "-612.844543", "z": "35.861488"},
+        {"name": "Aircraft Carrier", "x": "3084.3718261719", "y": "-4686.8374023438", "z": "27.252155303955"},
+        {"name": "Alphamail Couriers LSIA", "x": "-742.542419", "y": "-2486.499023", "z": "15.522549"},
+        {"name": "Bahama Mamas", "x": "-1383.363647", "y": "-612.322021", "z": "31.757839"},
+        {"name": "Banner Hotel & Spa", "x": "-286.34310913086", "y": "-1062.0539550781", "z": "27.205402374268"},
+        {"name": "Barracuda Cafe", "x": "-3276.633545", "y": "965.100159", "z": "8.347157"},
+        {"name": "Bishops Chicken", "x": "2581.094971", "y": "463.547485", "z": "108.607735"},
+        {"name": "Bristols Storage", "x": "448.08303833008", "y": "-2761.4575195313", "z": "7.1031231880188"},
+        {"name": "Cayo Perico", "x": "5011.8671875", "y": "-5753.5625", "z": "28.845277786255"},
+        {"name": "Casey's Diner", "x": "792.384338", "y": "-735.770691", "z": "27.482983"},
+        {"name": "Catfish View", "x": "3807.947510", "y": "4478.325195", "z": "6.365398"},
+        {"name": "Clucking Bell Co.", "x": "-137.179993", "y": "6199.277832", "z": "32.381268"},
+        {"name": "Collins Petrochemical Corp.", "x": "1708.917725", "y": "-1610.068481", "z": "113.814720"},
+        {"name": "Davis Quartz Quarry", "x": "2569.720947", "y": "2719.580322", "z": "42.894650"},
+        {"name": "Del Perro Pier", "x": "-1812.495239", "y": "-1205.709717", "z": "19.169615"},
+        {"name": "Fort Zancudo", "x": "-2435.660645", "y": "3288.332520", "z": "34.893108"},
+        {"name": "Fridgit Co.", "x": "868.230469", "y": "-1629.213745", "z": "30.247114"},
+        {"name": "Grandma's House", "x": "2220.858154", "y": "5614.331543", "z": "54.714058"},
+        {"name": "Harmony Gas Station", "x": "1039.297607", "y": "2664.792725", "z": "39.551064"},
+        {"name": "Hookies", "x": "-2193.330811", "y": "4286.322754", "z": "49.175159"},
+        {"name": "Horny's Burgers", "x": "1241.158325", "y": "-367.413361", "z": "69.082199"},
+        {"name": "Jetsam Paleto Bay", "x": "-249.036179", "y": "6160.130371", "z": "31.505112"},
+        {"name": "Jetsam Terminal", "x": "813.867249", "y": "-2982.500000", "z": "6.020937"},
+        {"name": "Jonny Tung", "x": "-902.894836", "y": "-227.015121", "z": "39.818169"},
+        {"name": "KO RTZ", "x": "-2286.076172", "y": "354.228271", "z": "174.601730"},
+        {"name": "Korean Plaza", "x": "-601.426819", "y": "-1135.726685", "z": "22.324245"},
+        {"name": "La Vaca Loco", "x": "142.927383", "y": "-1520.104736", "z": "29.836950"},
+        {"name": "Lârss & Elbö", "x": "109.517204", "y": "-153.314957", "z": "54.770302"},
+        {"name": "Los Santos Docks", "x": "-52.509109", "y": "-2523.930176", "z": "7.401169"},
+        {"name": "Los Santos International Airport", "x": "-1045.683472", "y": "-2750.869873", "z": "21.363428"},
+        {"name": "Maze Bank Arena", "x": "-253.743683", "y": "-1992.382690", "z": "30.145952"},
+        {"name": "Medical Center Parking Garage", "x": "407.020325", "y": "-1347.439453", "z": "41.053566"},
+        {"name": "Millars Boat Shop", "x": "1310.075317", "y": "4361.746094", "z": "41.314323"},
+        {"name": "Mr. Spoke's Bike Rental", "x": "-1106.429565", "y": "-1695.158203", "z": "4.373420"},
+        {"name": "Mt. Chiliad Base", "x": "517.348389", "y": "5582.300293", "z": "782.589783"},
+        {"name": "Oil Platform", "x": "-4169.881348", "y": "8913.024414", "z": "24.945295"},
+        {"name": "Opium Nights Hotel", "x": "-702.941895", "y": "-2276.212646", "z": "13.455383"},
+        {"name": "Pacific Allied Shipyard", "x": "94.309379577637", "y": "-2694.9694824219", "z": "6.0004138946533"},
+        {"name": "Pacific Bluffs Country Club", "x": "-3023.455322", "y": "81.415039", "z": "11.608119"},
+        {"name": "Pacific Standard Bank", "x": "260.769348", "y": "205.027145", "z": "110.286949"},
+        {"name": "Palmer-Taylor Power Station", "x": "2761.4274902344", "y": "1548.5849609375", "z": "30.792221069336"},
+        {"name": "Pala Springs Aerial Tramway", "x": "-754.82794189453", "y": "5566.1762695313", "z": "36.7096824646"},
+        {"name": "Parsons Rehabilitation Center", "x": "-1516.673828", "y": "852.379761", "z": "181.594666"},
+        {"name": "Pier 400", "x": "-101.20858764648", "y": "-2693.1262207031", "z": "6.1955623626709"},
+        {"name": "Playboy Mansion", "x": "-1537.704224", "y": "129.575684", "z": "57.371269"},
+        {"name": "Raven Slaughterhouse", "x": "941.13537597656", "y": "-2142.7016601563", "z": "30.51904296875"},
+        {"name": "Rebel Radio", "x": "733.491028", "y": "2523.361328", "z": "73.223778"},
+        {"name": "Ron Alternates Wind Farm", "x": "2462.0830078125", "y": "1575.7342529297", "z": "33.112606048584"},
+        {"name": "San Andreas Telecom Network", "x": "781.62677001953", "y": "1296.8873291016", "z": "361.36175537109"},
+        {"name": "Sandy Shores Airfield", "x": "1701.5467529297", "y": "3290.9489746094", "z": "48.921897888184"},
+        {"name": "Sandy Shores Liquor", "x": "1952.636353", "y": "3842.005371", "z": "32.178314"},
+        {"name": "Sisyphus Theater", "x": "225.960815", "y": "1171.997070", "z": "225.550034"},
+        {"name": "The Diamond Casino & Resort", "x": "929.74407958984", "y": "35.476051330566", "z": "81.095764160156"},
+        {"name": "Tongva Hills Vineyard", "x": "-1888.2740478516", "y": "2049.98828125", "z": "140.98390197754"},
+        {"name": "Train Yard - Davis Quartz", "x": "2745.3869628906", "y": "2788.5668945313", "z": "35.4485206604"},
+        {"name": "Train Yard - Grapeseed", "x": "2932.4145507813", "y": "4617.755859375", "z": "48.71703338623"},
+        {"name": "Train Yard - La Mesa", "x": "696.9375", "y": "-874.43109130859", "z": "24.658582687378"},
+        {"name": "Train Yard - LS Docks", "x": "-175.61352539063", "y": "-2581.3151855469", "z": "6.0010290145874"},
+        {"name": "Train Yard - LS Terminal", "x": "858.45727539063", "y": "-3203.8115234375", "z": "5.9949970245361"},
+        {"name": "Train Yard - Mirror Park", "x": "486.76611328125", "y": "-591.54602050781", "z": "26.210861206055"},
+        {"name": "Train Yard - Paleto Bay", "x": "147.79327392578", "y": "6361.9321289063", "z": "31.52921295166"},
+        {"name": "Train Yard - Sandy Shores", "x": "2009.6743164063", "y": "3630.4052734375", "z": "39.78341293335"},
+        {"name": "Union Grain Inc Grapeseed", "x": "2016.427612", "y": "4987.384766", "z": "42.098263"},
+        {"name": "Vanilla Unicorn", "x": "126.014801", "y": "-1283.903198", "z": "29.282330"},
+        {"name": "Venetian", "x": "-1362.374268", "y": "-1078.276855", "z": "3.604913"},
+        {"name": "Vespucci Movie Masks", "x": "-1337.976440", "y": "-1276.094116", "z": "4.895197"},
+        {"name": "Walker Logistics", "x": "152.12530517578", "y": "-3210.3564453125", "z": "5.8797378540039"},
+        {"name": "Wenger Institute", "x": "-368.79766845703", "y": "-240.53649902344", "z": "36.080070495605"},
+        {"name": "Yellowjack", "x": "1983.276489", "y": "3026.855713", "z": "47.523186"}
+
         ],
         "Trucking": [
         { "name": "Alamo View", "x": 721.09558105469, "y": 4176.1459960938, "z": 39.709201812744 },
@@ -171,7 +255,6 @@
         { "name": "Dignity Village", "x": 1475.2137451172, "y": 6359.9340820313, "z": 22.341884613037 },
         { "name": "Elysian Island Waste Deposit", "x": 264.68194580078, "y": -3022.201171875, "z": 4.0160155296326 },
         { "name": "Filtering Plant", "x": 270.10818481445, "y": 2851.9851074219, "z": 42.625190734863 },
-        { "name": "Fort Zancudo", "x": -2123.1623535156, "y": 3133.2165527344, "z": 32.810157775879 },
         { "name": "Furniture Store", "x": 2665.40625, "y": 3528.7941894531, "z": 51.238079071045 },
         { "name": "Grapeseed Farms", "x": 1912.9744873047, "y": 4940.7841796875, "z": 47.534248352051 },
         { "name": "Great Chaparral Farm", "x": -63.728096008301, "y": 1880.1964111328, "z": 196.02183532715 },
@@ -193,21 +276,14 @@
         { "name": "McKenzie Export", "x": 2148.071533, "y": 4806.387207, "z": 39.202164 },
         { "name": "Military Workshop", "x": -1759.1031494141, "y": 3062.0981445313, "z": 31.82453536987299 },
         { "name": "Mineral Mine", "x": -604.17065429688, "y": 2103.09375, "z": 127.41593933105 },
-        { "name": "Mount Gordo Airport", "x": 2273.4418945313, "y": 7002.625, "z": 21.018964767456 },
-        { "name": "Pacific Ocean Airport", "x": 3008.455078125, "y": -716.60382080078, "z": 19.438777923584 },
-        { "name": "Paleto Bay Airport", "x": -260.0876159668, "y": 6849.8837890625, "z": 10.766050338745 },
         { "name": "PB Construction Site", "x": 55.550399780273, "y": 6541.9790039063, "z": 30.63610458374 },
         { "name": "PB Factory", "x": -274.85046386719, "y": 6047.0283203125, "z": 30.606485366821 },
-        { "name": "Police Evidence", "x": 462.12347412109, "y": -988.99255371094, "z": 24.914875030518 },
         { "name": "PostOp HQ", "x": -422.00680541992, "y": -2788.0261230469, "z": 6.0003867149353 },
-        { "name": "PostOP Airport", "x": 997.18182373047, "y": -3415.9108886719, "z": 4.7015933990479 },
         { "name": "Quarry", "x": 2682.7861328125, "y": 2817.8293457031, "z": 39.449024200439 },
         { "name": "Raven Slaughterhouse", "x": 957.52685546875, "y": -2115.6027832031, "z": 29.551555633545 },
         { "name": "Recycling Center", "x": -345.93292236328, "y": -1562.4621582031, "z": 24.23023223877 },
         { "name": "Refinery", "x": 2809.6357421875, "y": 1551.9398193359, "z": 23.547212600708 },
         { "name": "Sandstone Collector", "x": 2171.3977050781, "y": 3507.1149902344, "z": 44.441234588623 },
-        { "name": "San Chianski Airport", "x": 6352.2573242188, "y": 3552.1267089844, "z": 11.999998092651 },
-        { "name": "Sandy Shores International Airport", "x": 527.73162841797, "y": 3830.0900878906, "z": 33.099807739258 },
         { "name": "Scrapyard", "x": 2397.7880859375, "y": 3112.3017578125, "z": 47.153259277344 },
         { "name": "Sorting Facility", "x": 1712.436035, "y": 3771.523926, "z": 32.388172 },
         { "name": "Sawmill", "x": -559.0625, "y": 5262.0502929688, "z": 70.099945068359 },
@@ -245,7 +321,17 @@
         // Open the shelf with locations
         viewLocationsButton.addEventListener("click", () => {
             const selectedJob = jobSelect.value;
-            if (!selectedJob) return alert("Please select a job!");
+            if (!selectedJob) {
+                // Send a "message" action to the parent window
+                window.parent.postMessage(
+                    {
+                        type: "message",
+                        text: "Please select a job!"
+                    },
+                    "*"
+                );
+                return;
+            }
 
             // Populate shelf with locations
             shelfTitle.textContent = `${selectedJob} Locations`;
@@ -255,6 +341,7 @@
             // Slide the shelf in and make it visible
             shelf.classList.add("open");
         });
+
 
         // Update the location list based on a search query or full list
         function updateLocationList(locationsToShow) {
